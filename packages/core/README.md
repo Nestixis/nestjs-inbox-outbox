@@ -21,6 +21,11 @@ The `InboxOutboxModule` is solution designed for NestJS to tackle the challenges
 
 ## Implementation Guide
 
+### Installation
+```
+npm i @nestixis/nestjs-inbox-outbox
+```
+
 ### Event Implementation
 
 ```typescript
