@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/Nestixis/nestjs-inbox-outbox.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Nestixis",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,5 +31,5 @@
     "prettier": "^3.3.3",
     "typescript": "^5.6.2"
   },
-  "gitHead": "9f5e0c4e2ff34599c1dd15f9a67f3f76dbd01422"
+  "gitHead": "010c167e60c596cb1aabf28186242a095c351e59"
 }

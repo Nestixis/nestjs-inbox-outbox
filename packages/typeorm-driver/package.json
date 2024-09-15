@@ -15,10 +15,13 @@
     "build": "tsc",
     "tsc:publish": "tsc && npm publish"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@nestixis/nestjs-inbox-outbox": "^0.0.23",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.20"
   },
-  "gitHead": "9f5e0c4e2ff34599c1dd15f9a67f3f76dbd01422"
+  "gitHead": "010c167e60c596cb1aabf28186242a095c351e59"
 }
