@@ -3,10 +3,11 @@
 The `InboxOutboxModule` is solution designed for NestJS to tackle the challenges of dual write and reliable event delivery in distributed systems. It addresses scenarios where one module emits an integration event, and another module must receive and process this information to maintain system-wide data consistency, which is not possible with a in-memory event bus.
 
 ## Outbox Part Visualization
-![outbox](https://github.com/user-attachments/assets/680ee8e7-4ebc-423b-a64f-02d44524044b)
+![outbox](https://github.com/user-attachments/assets/83fdb729-70dd-47f9-9449-cd40fe7ddd97)
+
 
 ## Inbox Part Visualization
-![inbox](https://github.com/user-attachments/assets/b59a065d-84ca-44ac-aed0-d66ea4485ae2)
+![inbox](https://github.com/user-attachments/assets/fb67a80a-b963-4710-b0d7-a0c28c5fe6a7)
 
 
 ### Problems Addressed
@@ -149,12 +150,12 @@ The module uses a `TransactionalEventEmitter` for reliable event emission. This 
               name: UserApplicationAssignedEvent.name,
               listeners: {
                 expiresAtTTL: 1000 * 60 * 60 * 24, 
-                maxExecutionTimeTTL: 1000 * 60 * 60 * 24, 
+                maxExecutionTimeTTL: 1000 * 15, 
                 readyToRetryAfterTTL: 10000, 
               },
             },
           ],
-          retryEveryMilliseconds: 1000, 
+          retryEveryMilliseconds: 30_000, 
           maxInboxOutboxTransportEventPerRetry: 10, 
         };
       },
