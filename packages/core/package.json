@@ -28,5 +28,6 @@
     "rxjs": "^7.8.1",
     "ts-jest": "^29.2.5",
     "typescript": "^5.6.2"
-  }
+  },
+  "gitHead": "9f5e0c4e2ff34599c1dd15f9a67f3f76dbd01422"
 }

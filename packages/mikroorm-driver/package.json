@@ -27,5 +27,6 @@
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.3.3",
     "typescript": "^5.6.2"
-  }
+  },
+  "gitHead": "9f5e0c4e2ff34599c1dd15f9a67f3f76dbd01422"
 }

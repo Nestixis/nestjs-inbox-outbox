@@ -19,5 +19,6 @@
     "@nestixis/nestjs-inbox-outbox": "^0.0.23",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.20"
-  }
+  },
+  "gitHead": "9f5e0c4e2ff34599c1dd15f9a67f3f76dbd01422"
 }
