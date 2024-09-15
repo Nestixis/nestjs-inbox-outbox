@@ -1,6 +1,6 @@
 {
   "name": "@nestixis/nestjs-inbox-outbox-typeorm-driver",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "This package provides a driver for the NestJS Inbox Outbox library that uses TypeORM to interact with the database.",
   "author": "axotion <7965436+axotion@users.noreply.github.com>",
   "homepage": "https://github.com/Nestixis/nestjs-inbox-outbox#readme",
@@ -16,7 +16,7 @@
     "tsc:publish": "tsc && npm publish"
   },
   "dependencies": {
-    "@nestixis/nestjs-inbox-outbox": "^0.0.22",
+    "@nestixis/nestjs-inbox-outbox": "^0.0.23",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.20"
   }

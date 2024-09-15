@@ -1,6 +1,6 @@
 {
   "name": "@nestixis/nestjs-inbox-outbox",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "NestJS Inbox Outbox pattern implementation with extensible database drivers",
   "scripts": {
     "build": "tsc",
