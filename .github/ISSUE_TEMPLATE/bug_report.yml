@@ -1,0 +1,89 @@
+name: 🐞 Bug report
+description: Report an issue with NestJS InboxOutbox or its drivers.
+labels: [ pending triage ]
+body:
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is. If you intend to submit a PR for this issue, tell us in the description. Thanks!
+      placeholder: Bug description
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Please provide a link to a GitHub repo that can reproduce the problem you ran into. A [minimal reproduction](https://stackoverflow.com/help/minimal-reproducible-example) is required unless you are absolutely sure that the issue is obvious and the provided information is enough to understand the problem.
+      placeholder: Reproduction
+    validations:
+      required: true
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: What driver are you using?
+      multiple: false
+      options:
+        - "@nestixis/nestjs-inbox-outbox-mikroorm-driver"
+        - "@nestixis/nestjs-inbox-outbox-typeorm-driver"
+    validations:
+      required: false
+
+  - type: input
+    id: package-version
+    attributes:
+      label: NestJS InboxOutbox version
+      description: Which version of the package are you using? Run `npm list <package>` in your project directory and paste the output.
+    validations:
+      required: true
+
+  - type: input
+    id: package-version-nestjs-inbox-outbox-driver
+    attributes:
+      label: NestJS InboxOutbox Driver version
+      description: Which version of the package are you using? Run `npm list <package>` in your project directory and paste the output.
+    validations:
+      required: true
+
+  - type: input
+    id: node-version
+    attributes:
+      label: Node.js version
+      description: |
+        Which version of Node.js are you using? Run `node --version` in your project directory and paste the output.
+        If you are using TypeScript, please include its version (`npm list typescript`) as well.
+    validations:
+      required: true
+
+  - type: input
+    id: nestjs-version-version
+    attributes:
+      label: NestJS version
+      description: |
+        Which version of NestJS are you using? 
+        If you are using TypeScript, please include its version (`npm list typescript`) as well.
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: Which OS does your application run on?
+
+  - type: checkboxes
+    id: checkboxes
+    attributes:
+      label: Validations
+      description: Before submitting the issue, please make sure you do the following
+      options:
+        - label: Read the [docs](https://github.com/Nestixis/nestjs-inbox-outbox/blob/main/README.json).
+          required: true
+        - label: Check that there isn't [already an issue](https://github.com/Nestixis/nestjs-inbox-outbox/issues) that reports the same bug to avoid creating a duplicate.
+          required: true
+        - label: Check that this is a concrete bug. For Q&A open a [GitHub Discussion](https://github.com/Nestixis/nestjs-inbox-outbox/discussions).
+          required: true
+        - label: The provided reproduction is a [minimal reproducible example](https://stackoverflow.com/help/minimal-reproducible-example) of the bug.
+          required: true

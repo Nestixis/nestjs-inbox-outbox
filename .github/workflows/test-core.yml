@@ -1,0 +1,30 @@
+name: Test Core Package
+
+on:
+  push:
+    paths:
+      - 'packages/core/**'
+  pull_request:
+    paths:
+      - 'packages/core/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18' # Specify the version of Node.js you want to use
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: packages/core
+
+    - name: Run tests
+      run: npm run test
+      working-directory: packages/core
