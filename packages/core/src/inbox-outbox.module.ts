@@ -54,6 +54,7 @@ export class InboxOutboxModule extends ConfigurableModuleClass {
           inject: [MODULE_OPTIONS_TOKEN],
         } as Provider<any>,
       ],
+      exports: [TransactionalEventEmitter],
     };
   }
 }
