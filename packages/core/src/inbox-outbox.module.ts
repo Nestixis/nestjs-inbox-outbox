@@ -35,6 +35,7 @@ import { EventConfigurationResolver } from './resolver/event-configuration.resol
     EventConfigurationResolver,
     EventValidator,
   ],
+  exports: [TransactionalEventEmitter],
 })
 export class InboxOutboxModule extends ConfigurableModuleClass {
   static registerAsync(options: typeof ASYNC_OPTIONS_TYPE): DynamicModule {
