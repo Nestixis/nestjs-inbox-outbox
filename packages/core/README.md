@@ -1,4 +1,4 @@
-# InboxOutboxModule intro
+# InboxOutboxModule
 
 The `InboxOutboxModule` is solution designed for NestJS to tackle the challenges of dual write and reliable event delivery in distributed systems. It addresses scenarios where one module emits an integration event, and another module must receive and process this information to maintain system-wide data consistency, which is not possible with a in-memory event bus.
 
