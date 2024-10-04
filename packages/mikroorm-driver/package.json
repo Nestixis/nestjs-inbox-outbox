@@ -1,6 +1,6 @@
 {
   "name": "@nestixis/nestjs-inbox-outbox-mikroorm-driver",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "description": "This package provides a driver for the NestJS Inbox Outbox library that uses MikroORM to interact with the database.",
   "scripts": {
     "build": "tsc",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@mikro-orm/core": "^6.3.9",
     "@mikro-orm/migrations": "^6.3.9",
-    "@nestixis/nestjs-inbox-outbox": "^0.0.25"
+    "@nestixis/nestjs-inbox-outbox": "^0.0.26"
   },
   "devDependencies": {
     "@types/node": "^20.16.5",
