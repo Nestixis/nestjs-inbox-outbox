@@ -27,7 +27,7 @@ export class TransactionalEventEmitter {
     event: InboxOutboxEvent,
     entities: {
       operation: TransactionalEventEmitterOperations;
-      entity: { id: number | string };
+      entity: any;
     }[],
   ): Promise<void> {
     const eventOptions: InboxOutboxModuleEventOptions = this.options.events.find((optionEvent) => optionEvent.name === event.name);
