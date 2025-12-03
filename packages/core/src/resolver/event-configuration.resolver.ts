@@ -18,6 +18,10 @@ export class EventConfigurationResolver {
             this.isBuilt = true;
         }
 
-        return this.eventConfigurationsMap.get(eventName);
+        const config = this.eventConfigurationsMap.get(eventName);
+        if (!config) {
+            throw new Error(`Event configuration not found for event: ${eventName}`);
+        }
+        return config;
     }
 }
