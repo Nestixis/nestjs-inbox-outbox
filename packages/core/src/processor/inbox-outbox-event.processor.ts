@@ -34,7 +34,7 @@ export class InboxOutboxEventProcessor implements InboxOutboxEventProcessorContr
     }
 
     if (deliveredToListeners.length > 0) {
-      inboxOutboxTransportEvent.delivedToListeners.push(...deliveredToListeners);
+      inboxOutboxTransportEvent.deliveredToListeners.push(...deliveredToListeners);
       await databaseDriver.persist(inboxOutboxTransportEvent);
     }
 

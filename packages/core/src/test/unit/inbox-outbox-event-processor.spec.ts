@@ -68,7 +68,7 @@ describe('InboxOutboxEventProcessor', () => {
 
         const inboxOutboxTransportEvent : InboxOutboxTransportEvent = {
             readyToRetryAfter: new Date().getTime(),
-            delivedToListeners: [],
+            deliveredToListeners: [],
             eventName: 'newEvent',
             eventPayload: {},
             expireAt: new Date().getTime() + 1000,
@@ -116,7 +116,7 @@ describe('InboxOutboxEventProcessor', () => {
 
         const inboxOutboxTransportEvent : InboxOutboxTransportEvent = {
             readyToRetryAfter: new Date().getTime(),
-            delivedToListeners: [],
+            deliveredToListeners: [],
             eventName: 'newEvent',
             eventPayload: {},
             expireAt: new Date().getTime() + 1000,

@@ -58,7 +58,7 @@ export class RetryableInboxOutboxEventPoller implements OnModuleInit {
     return Promise.allSettled(
       inboxOutboxTransportEvents.map((inboxOutboxTransportEvent) => {
         const notDeliveredToListeners = this.transactionalEventEmitter.getListeners(inboxOutboxTransportEvent.eventName).filter((listener) => {
-          return !inboxOutboxTransportEvent.delivedToListeners.includes(listener.getName());
+          return !inboxOutboxTransportEvent.deliveredToListeners.includes(listener.getName());
         });
 
         return this.inboxOutboxEventProcessor.process(

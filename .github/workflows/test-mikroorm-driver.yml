@@ -1,0 +1,62 @@
+name: Test MikroORM Driver
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/mikroorm-driver/**'
+      - 'packages/core/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/test-mikroorm-driver.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/mikroorm-driver/**'
+      - 'packages/core/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/test-mikroorm-driver.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build core package
+        run: npm run build --workspace=@nestixis/nestjs-inbox-outbox
+
+      - name: Run MikroORM driver tests
+        run: npm test --workspace=@nestixis/nestjs-inbox-outbox-mikroorm-driver
+        env:
+          PGHOST: localhost
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          PGDATABASE: postgres
