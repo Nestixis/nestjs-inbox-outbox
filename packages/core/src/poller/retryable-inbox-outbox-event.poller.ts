@@ -1,5 +1,5 @@
-import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { EMPTY, catchError, concatMap, from, interval, repeat } from 'rxjs';
+import { Inject, Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { EMPTY, Subscription, catchError, concatMap, from, interval, repeat } from 'rxjs';
 import { DATABASE_DRIVER_FACTORY_TOKEN, DatabaseDriverFactory } from '../driver/database-driver.factory';
 import { TransactionalEventEmitter } from '../emitter/transactional-event-emitter';
 import { InboxOutboxModuleOptions, MODULE_OPTIONS_TOKEN } from '../inbox-outbox.module-definition';
@@ -8,7 +8,11 @@ import { INBOX_OUTBOX_EVENT_PROCESSOR_TOKEN, InboxOutboxEventProcessorContract }
 import { EventConfigurationResolver } from '../resolver/event-configuration.resolver';
 
 @Injectable()
-export class RetryableInboxOutboxEventPoller implements OnModuleInit {
+export class RetryableInboxOutboxEventPoller implements OnModuleInit, OnModuleDestroy {
+  private subscription: Subscription | null = null;
+  private inFlightProcessing: Set<Promise<unknown>> = new Set();
+  private isShuttingDown = false;
+
   constructor(
     @Inject(MODULE_OPTIONS_TOKEN) private options: InboxOutboxModuleOptions,
     @Inject(DATABASE_DRIVER_FACTORY_TOKEN) private databaseDriverFactory: DatabaseDriverFactory,
@@ -19,9 +23,12 @@ export class RetryableInboxOutboxEventPoller implements OnModuleInit {
   ) {}
   async onModuleInit() {
     this.logger.log(`Inbox options: retryEveryMilliseconds: ${this.options.retryEveryMilliseconds}, maxInboxOutboxTransportEventPerRetry: ${this.options.maxInboxOutboxTransportEventPerRetry}, events: ${JSON.stringify(this.options.events)}, driver: ${this.options.driverFactory.constructor.name}`);
-    interval(this.options.retryEveryMilliseconds)
+    this.subscription = interval(this.options.retryEveryMilliseconds)
       .pipe(
         concatMap(() => {
+          if (this.isShuttingDown) {
+            return EMPTY;
+          }
           return from(this.poolRetryableEvents());
         }),
         catchError((exception) => {
@@ -32,6 +39,24 @@ export class RetryableInboxOutboxEventPoller implements OnModuleInit {
         repeat(),
       )
       .subscribe();
+  }
+
+  async onModuleDestroy() {
+    this.isShuttingDown = true;
+    this.logger.log('Shutting down RetryableInboxOutboxEventPoller...');
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = null;
+    }
+
+    if (this.inFlightProcessing.size > 0) {
+      this.logger.log(`Waiting for ${this.inFlightProcessing.size} in-flight event(s) to complete...`);
+      await Promise.allSettled([...this.inFlightProcessing]);
+      this.logger.log('All in-flight events completed.');
+    }
+
+    this.logger.log('RetryableInboxOutboxEventPoller shutdown complete.');
   }
 
   async poolRetryableEvents() {
@@ -55,18 +80,25 @@ export class RetryableInboxOutboxEventPoller implements OnModuleInit {
   }
 
   private async processAsynchronousRetryableEvents(inboxOutboxTransportEvents: InboxOutboxTransportEvent[]) {
-    return Promise.allSettled(
-      inboxOutboxTransportEvents.map((inboxOutboxTransportEvent) => {
-        const notDeliveredToListeners = this.transactionalEventEmitter.getListeners(inboxOutboxTransportEvent.eventName).filter((listener) => {
-          return !inboxOutboxTransportEvent.delivedToListeners.includes(listener.getName());
-        });
+    const processingPromises = inboxOutboxTransportEvents.map((inboxOutboxTransportEvent) => {
+      const notDeliveredToListeners = this.transactionalEventEmitter.getListeners(inboxOutboxTransportEvent.eventName).filter((listener) => {
+        return !inboxOutboxTransportEvent.deliveredToListeners.includes(listener.getName());
+      });
 
-        return this.inboxOutboxEventProcessor.process(
-          this.options.events.find((event) => event.name === inboxOutboxTransportEvent.eventName),
-          inboxOutboxTransportEvent,
-          notDeliveredToListeners,
-        );
-      }),
-    );
+      const processingPromise = this.inboxOutboxEventProcessor.process(
+        this.options.events.find((event) => event.name === inboxOutboxTransportEvent.eventName),
+        inboxOutboxTransportEvent,
+        notDeliveredToListeners,
+      );
+
+      this.inFlightProcessing.add(processingPromise);
+      processingPromise.finally(() => {
+        this.inFlightProcessing.delete(processingPromise);
+      });
+
+      return processingPromise;
+    });
+
+    return Promise.allSettled(processingPromises);
   }
 }

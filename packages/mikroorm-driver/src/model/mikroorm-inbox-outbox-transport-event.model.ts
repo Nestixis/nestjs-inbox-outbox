@@ -18,16 +18,17 @@ export class MikroOrmInboxOutboxTransportEvent implements InboxOutboxTransportEv
 
   @Property({
     type: 'json',
+    fieldName: 'delivered_to_listeners',
   })
-  delivedToListeners: string[];
+  deliveredToListeners: string[];
 
-  @Property()
+  @Property({ type: 'bigint' })
   readyToRetryAfter: number;
 
-  @Property()
+  @Property({ type: 'bigint' })
   expireAt: number;
 
-  @Property()
+  @Property({ type: 'bigint' })
   insertedAt: number;
 
   create(eventName: string, eventPayload: any, expireAt: number, readyToRetryAfter: number | null): InboxOutboxTransportEvent {
@@ -37,7 +38,7 @@ export class MikroOrmInboxOutboxTransportEvent implements InboxOutboxTransportEv
     event.expireAt = expireAt;
     event.readyToRetryAfter = readyToRetryAfter;
     event.insertedAt = Date.now();
-    event.delivedToListeners = [];
+    event.deliveredToListeners = [];
     return event;
   }
 }

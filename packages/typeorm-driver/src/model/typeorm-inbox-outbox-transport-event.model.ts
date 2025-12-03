@@ -21,9 +21,9 @@ export class TypeOrmInboxOutboxTransportEvent implements InboxOutboxTransportEve
 
   @Column({
     type: 'json',
-    name: 'delived_to_listeners',
+    name: 'delivered_to_listeners',
   })
-  delivedToListeners: string[];
+  deliveredToListeners: string[];
 
   @Column({
     name: 'ready_to_retry_after',
@@ -48,7 +48,7 @@ export class TypeOrmInboxOutboxTransportEvent implements InboxOutboxTransportEve
     event.expireAt = expireAt;
     event.readyToRetryAfter = readyToRetryAfter;
     event.insertedAt = Date.now();
-    event.delivedToListeners = [];
+    event.deliveredToListeners = [];
     return event;
   }
 }

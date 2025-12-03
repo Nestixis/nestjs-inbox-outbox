@@ -2,11 +2,19 @@ name: Test Core Package
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'packages/core/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/test-core.yml'
   pull_request:
     paths:
       - 'packages/core/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/test-core.yml'
 
 jobs:
   test:
@@ -23,6 +31,10 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+      working-directory: packages/core
+
+    - name: Type check
+      run: npm run build
       working-directory: packages/core
 
     - name: Run tests
