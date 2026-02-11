@@ -1,0 +1,45 @@
+{
+  "name": "@nestixis/prisma-driver",
+  "version": "1.0.0",
+  "description": "Prisma driver for @nestixis/nestjs-inbox-outbox",
+  "keywords": [
+    "nestjs",
+    "inbox-outbox",
+    "prisma",
+    "driver"
+  ],
+  "author": "DestyK <nikita.karpov.1910@mail.ru>",
+  "homepage": "https://github.com/Nestixis/nestjs-inbox-outbox#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint . --ext .ts",
+    "pretest": "npx prisma db push --schema=prisma/dev-schema.prisma",
+    "test": "jest --config jest.config.js --runInBand",
+    "generate:prisma": "npx prisma generate --schema=prisma/dev-schema.prisma"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nestixis/nestjs-inbox-outbox.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nestixis/nestjs-inbox-outbox/issues"
+  },
+  "peerDependencies": {
+    "@prisma/client": "^6.0.0",
+    "@nestixis/nestjs-inbox-outbox": "^1.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "sqlite3": "^5.1.0",
+    "@types/jest": "^29.0.0",
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0"
+  }
+}

@@ -1,0 +1,21 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:memorydb.db?mode=memory&cache=shared"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/@generated-dev-prisma/client"
+}
+
+model InboxOutboxTransportEvent {
+  id                 Int     @id @default(autoincrement())
+  eventName          String
+  eventPayload       Json
+  delivedToListeners Json    @default("[]")
+  readyToRetryAfter  BigInt?
+  expireAt           BigInt
+  insertedAt         BigInt
+
+  @@map("inbox_outbox_transport_event")
+}
